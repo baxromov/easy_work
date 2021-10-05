@@ -1,0 +1,7 @@
+media
+.idea
+static
+venv
+db.sqlite3
+migrations
+__pycache__
