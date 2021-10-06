@@ -1,0 +1,72 @@
+<nav class="sidebar">
+    <div class="sidebar-header">
+        <a href="#" class="sidebar-brand">
+            Noble<span>UI</span>
+        </a>
+        <div class="sidebar-toggler not-active">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </div>
+    <div class="sidebar-body">
+        <ul class="nav">
+            <li class="nav-item">
+                <a href="{% url 'home' %}" class="nav-link">
+                    <i class="link-icon" data-feather="pie-chart"></i>
+                    <span class="link-title">Главная</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{% url 'product' %}" class="nav-link">
+                    <i class="link-icon" data-feather="box"></i>
+                    <span class="link-title">Продукты и услуги</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="link-icon" data-feather="bar-chart-2"></i>
+                    <span class="link-title">Отчеты</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="collapse" href="#uiComponents" role="button" aria-expanded="false"
+                   aria-controls="uiComponents">
+                    <i class="link-icon" data-feather="layers"></i>
+                    <span class="link-title">Компания</span>
+                    <i class="link-arrow" data-feather="chevron-down"></i>
+                </a>
+                <div class="collapse" id="uiComponents">
+                    <ul class="nav sub-menu">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">Сотрудники</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="pages/ui-components/alerts.html" class="nav-link">Alerts</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="pages/ui-components/badges.html" class="nav-link">Badges</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+        </ul>
+    </div>
+</nav>
+<nav class="settings-sidebar">
+    <div class="sidebar-body">
+        <a href="#" class="settings-sidebar-toggler">
+            <i data-feather="settings"></i>
+        </a>
+        <div class="theme-wrapper">
+            <h6 class="text-muted mb-2">Light Theme:</h6>
+            <a class="theme-item" href="demo1/dashboard.html">
+                <img src="assets/images/screenshots/light.jpg" alt="light theme">
+            </a>
+            <h6 class="text-muted mb-2">Dark Theme:</h6>
+            <a class="theme-item active" href="demo2/dashboard.html">
+                <img src="assets/images/screenshots/dark.jpg" alt="light theme">
+            </a>
+        </div>
+    </div>
+</nav>

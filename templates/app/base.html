@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="description" content="Responsive HTML Admin Dashboard Template based on Bootstrap 5">
+    <meta name="author" content="NobleUI">
+    <meta name="keywords"
+          content="bootstrap, bootstrap 5, bootstrap5, admin, dashboard, template, responsive, css, sass, html, theme, front-end, ui kit, web">
+
+    <title>Easy Solution | {% block title %}{% endblock %}</title>
+    {% include 'app/assets/link.html' %}
+    {% block css %}
+
+    {% endblock %}
+</head>
+<body>
+
+<div class="main-wrapper">
+    <!-- partial:partials -->
+    {% include 'app/partials/sidebar.html' %}
+    <!-- content -->
+    <div class="page-wrapper">
+        <!-- partial:sidebar -->
+        {% include 'app/partials/navbar.html' %}
+        <div class="page-content">
+            {% block content %}{% endblock %}
+        </div>
+        <!-- partial:footer -->
+        {% include 'app/assets/script.html' %}
+
+    </div>
+</div>
+
+{% block js %}
+
+{% endblock %}
+</body>
+</html>
