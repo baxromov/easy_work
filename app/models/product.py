@@ -15,7 +15,7 @@ class Product(created_at.CreatedAtMixin, models.Model):
 
     price = models.FloatField(default=0)
     quantity = models.IntegerField(default=0)
-    image = models.ImageField(upload_to=get_directory)
+    image = models.ImageField(upload_to=get_directory, null=True, blank=True)
 
     def delete(self, *args, **kwargs):
         storage, path = self.image.storage, self.image.path

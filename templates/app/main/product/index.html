@@ -12,7 +12,7 @@
     <!-- endinject -->
     <link rel="stylesheet" href="{% static 'assets/vendors/datatables.net-bs4/dataTables.bootstrap4.css' %}">
     <link rel="stylesheet" href="{% static 'assets/vendors/prismjs/themes/prism.css' %}">
-
+    <link rel="stylesheet" href="{% static 'assets/vendors/dropify/dist/dropify.min.css' %}">
     <!-- Layout styles -->
     <link rel="stylesheet" href="{% static 'assets/css/demo2/style.css' %}">
     <!-- End layout styles -->
@@ -23,7 +23,7 @@
 {% block content %}
     <nav class="page-breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item active"><a href="{% url 'product' %}">Товары и услуги</a></li>
+            <li class="breadcrumb-item active">Товары и услуги</li>
         </ol>
     </nav>
     <div class="row">
@@ -46,7 +46,60 @@
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                    <p>Hello</p>
+                                    <form class="cmxform" method="POST" id="submit" action="{% url 'product' %}" enctype="multipart/form-data">
+                                        <fieldset>
+                                            <!-- Category , Name -->
+                                            <div class="row mb-3">
+                                                <div class="col-md-6">
+                                                    <label class="form-label">Категория</label>
+                                                    <select class="js-example-basic-single form-select mb-4 mb-md-0"
+                                                            name="category"
+                                                            data-width="100%">
+                                                        <option value="TX">Texas</option>
+                                                        <option value="NY">New York</option>
+                                                        <option value="FL">Florida</option>
+                                                        <option value="KN">Kansas</option>
+                                                        <option value="HW">Hawaii</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label for="name" class="form-label">Наименование</label>
+                                                    <input id="name" class="form-control mb-4 mb-md-0" name="name"
+                                                           type="text" required>
+                                                </div>
+                                            </div>
+                                            <!-- Measurement, quantity -->
+                                            <div class="row mb-3">
+                                                <div class="col-md-4">
+                                                    <label class="form-label">Цена (Сум):</label>
+                                                    <input class="form-control mb-4 mb-md-0" type="text"
+                                                           data-inputmask="'alias': 'currency'" required/>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label class="form-label">Измерение</label>
+                                                    <input class="form-control mb-4 mb-md-0"
+                                                           name="measurement" type="text" required/>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label class="form-label">Количество</label>
+                                                    <input class="form-control mb-4 mb-md-0" type="number"
+                                                           name="quantity" required/>
+                                                </div>
+                                            </div>
+                                            <!-- Image -->
+                                            <div class="row mb-3">
+                                                <div class="col-md-12 stretch-card">
+                                                    <div class="card">
+                                                        <div class="card-body">
+                                                            <h6 class="card-title">Image</h6>
+                                                            <input type="file" id="myDropify" name="image"/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <input class="btn btn-primary" type="submit" value="Submit">
+                                        </fieldset>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -57,191 +110,25 @@
                         <table id="dataTableExample" class="table">
                             <thead>
                             <tr>
-                                <th>Name</th>
-                                <th>Position</th>
-                                <th>Office</th>
-                                <th>Age</th>
-                                <th>Start date</th>
-                                <th>Salary</th>
+                                <th class="text-center">#</th>
+                                <th class="text-center">Наименование</th>
+                                <th class="text-center">Категория</th>
+                                <th class="text-center">Измерение</th>
+                                <th class="text-center">Цена (Сум)</th>
+                                <th class="text-center">Количество</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <td>Tiger Nixon</td>
-                                <td>System Architect</td>
-                                <td>Edinburgh</td>
-                                <td>61</td>
-                                <td>2011/04/25</td>
-                                <td>$320,800</td>
-                            </tr>
-                            <tr>
-                                <td>Garrett Winters</td>
-                                <td>Accountant</td>
-                                <td>Tokyo</td>
-                                <td>63</td>
-                                <td>2011/07/25</td>
-                                <td>$170,750</td>
-                            </tr>
-                            <tr>
-                                <td>Ashton Cox</td>
-                                <td>Junior Technical Author</td>
-                                <td>San Francisco</td>
-                                <td>66</td>
-                                <td>2009/01/12</td>
-                                <td>$86,000</td>
-                            </tr>
-                            <tr>
-                                <td>Cedric Kelly</td>
-                                <td>Senior Javascript Developer</td>
-                                <td>Edinburgh</td>
-                                <td>22</td>
-                                <td>2012/03/29</td>
-                                <td>$433,060</td>
-                            </tr>
-                            <tr>
-                                <td>Airi Satou</td>
-                                <td>Accountant</td>
-                                <td>Tokyo</td>
-                                <td>33</td>
-                                <td>2008/11/28</td>
-                                <td>$162,700</td>
-                            </tr>
-                            <tr>
-                                <td>Brielle Williamson</td>
-                                <td>Integration Specialist</td>
-                                <td>New York</td>
-                                <td>61</td>
-                                <td>2012/12/02</td>
-                                <td>$372,000</td>
-                            </tr>
-                            <tr>
-                                <td>Herrod Chandler</td>
-                                <td>Sales Assistant</td>
-                                <td>San Francisco</td>
-                                <td>59</td>
-                                <td>2012/08/06</td>
-                                <td>$137,500</td>
-                            </tr>
-                            <tr>
-                                <td>Rhona Davidson</td>
-                                <td>Integration Specialist</td>
-                                <td>Tokyo</td>
-                                <td>55</td>
-                                <td>2010/10/14</td>
-                                <td>$327,900</td>
-                            </tr>
-                            <tr>
-                                <td>Colleen Hurst</td>
-                                <td>Javascript Developer</td>
-                                <td>San Francisco</td>
-                                <td>39</td>
-                                <td>2009/09/15</td>
-                                <td>$205,500</td>
-                            </tr>
-                            <tr>
-                                <td>Sonya Frost</td>
-                                <td>Software Engineer</td>
-                                <td>Edinburgh</td>
-                                <td>23</td>
-                                <td>2008/12/13</td>
-                                <td>$103,600</td>
-                            </tr>
-                            <tr>
-                                <td>Jena Gaines</td>
-                                <td>Office Manager</td>
-                                <td>London</td>
-                                <td>30</td>
-                                <td>2008/12/19</td>
-                                <td>$90,560</td>
-                            </tr>
-                            <tr>
-                                <td>Quinn Flynn</td>
-                                <td>Support Lead</td>
-                                <td>Edinburgh</td>
-                                <td>22</td>
-                                <td>2013/03/03</td>
-                                <td>$342,000</td>
-                            </tr>
-                            <tr>
-                                <td>Charde Marshall</td>
-                                <td>Regional Director</td>
-                                <td>San Francisco</td>
-                                <td>36</td>
-                                <td>2008/10/16</td>
-                                <td>$470,600</td>
-                            </tr>
-                            <tr>
-                                <td>Haley Kennedy</td>
-                                <td>Senior Marketing Designer</td>
-                                <td>London</td>
-                                <td>43</td>
-                                <td>2012/12/18</td>
-                                <td>$313,500</td>
-                            </tr>
-                            <tr>
-                                <td>Tatyana Fitzpatrick</td>
-                                <td>Regional Director</td>
-                                <td>London</td>
-                                <td>19</td>
-                                <td>2010/03/17</td>
-                                <td>$385,750</td>
-                            </tr>
-                            <tr>
-                                <td>Michael Silva</td>
-                                <td>Marketing Designer</td>
-                                <td>London</td>
-                                <td>66</td>
-                                <td>2012/11/27</td>
-                                <td>$198,500</td>
-                            </tr>
-                            <tr>
-                                <td>Paul Byrd</td>
-                                <td>Chief Financial Officer (CFO)</td>
-                                <td>New York</td>
-                                <td>64</td>
-                                <td>2010/06/09</td>
-                                <td>$725,000</td>
-                            </tr>
-                            <tr>
-                                <td>Gloria Little</td>
-                                <td>Systems Administrator</td>
-                                <td>New York</td>
-                                <td>59</td>
-                                <td>2009/04/10</td>
-                                <td>$237,500</td>
-                            </tr>
-                            <tr>
-                                <td>Bradley Greer</td>
-                                <td>Software Engineer</td>
-                                <td>London</td>
-                                <td>41</td>
-                                <td>2012/10/13</td>
-                                <td>$132,000</td>
-                            </tr>
-                            <tr>
-                                <td>Dai Rios</td>
-                                <td>Personnel Lead</td>
-                                <td>Edinburgh</td>
-                                <td>35</td>
-                                <td>2012/09/26</td>
-                                <td>$217,500</td>
-                            </tr>
-                            <tr>
-                                <td>Jenette Caldwell</td>
-                                <td>Development Lead</td>
-                                <td>New York</td>
-                                <td>30</td>
-                                <td>2011/09/03</td>
-                                <td>$345,000</td>
-                            </tr>
-                            <tr>
-                                <td>Yuri Berry</td>
-                                <td>Chief Marketing Officer (CMO)</td>
-                                <td>New York</td>
-                                <td>40</td>
-                                <td>2009/06/25</td>
-                                <td>$675,000</td>
-                            </tr>
+                            {% for product in products %}
+                                <tr>
+                                    <td class="text-center">{{ forloop.counter }}</td>
+                                    <td class="text-center">{{ product.name }}</td>
+                                    <td class="text-center">{{ product.category }}</td>
+                                    <td class="text-center">{{ product.measurement }}</td>
+                                    <td class="text-center">{{ product.price }}</td>
+                                    <td class="text-center">{{ product.quantity }}</td>
+                                </tr>
+                            {% endfor %}
                             </tbody>
                         </table>
                     </div>
@@ -258,6 +145,12 @@
     <script src="{% static 'assets/vendors/prismjs/prism.js' %}"></script>
     <script src="{% static 'assets/vendors/clipboard/clipboard.min.js' %}"></script>
 
+    <script src="{% static 'assets/vendors/jquery-validation/jquery.validate.min.js' %}"></script>
+    <script src="{% static 'assets/vendors/inputmask/jquery.inputmask.min.js' %}"></script>
+    <script src="{% static 'assets/js/inputmask.js' %}"></script>
+    <script src="{% static 'assets/vendors/dropify/dist/dropify.min.js' %}"></script>
+    <script src="{% static 'assets/js/dropify.js' %}"></script>
+
     <script>
         $(function () {
             'use strict';
@@ -270,21 +163,85 @@
                     ],
                     "iDisplayLength": 10,
                     "language": {
-                        search: ""
+                        search: "",
+                    },
+                    "oLanguage": {
+
+                        "sSearch": "Поиск:",
+                        "sLengthMenu": "Показать _MENU_ записи",
+                        "sInfo": "Показано с _START_ по _END_ из _TOTAL_ записей",
+                        "oPaginate": {
+                            "sFirst": "Первый", // This is the link to the first page
+                            "sPrevious": "Предыдущий", // This is the link to the previous page
+                            "sNext": "Следующий", // This is the link to the next page
+                            "sLast": "Последний" // This is the link to the last page
+                        }
+
                     }
                 });
                 $('#dataTableExample').each(function () {
                     var datatable = $(this);
-                    // SEARCH - Add the placeholder for Search and Turn this into in-line form control
                     var search_input = datatable.closest('.dataTables_wrapper').find('div[id$=_filter] input');
                     search_input.attr('placeholder', 'Search');
                     search_input.removeClass('form-control-sm');
-                    // LENGTH - Inline-Form control
                     var length_sel = datatable.closest('.dataTables_wrapper').find('div[id$=_length] select');
                     length_sel.removeClass('form-control-sm');
                 });
             });
 
         });
+    </script>
+    <!-- Ajax -->
+    <script>
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        function allnumericplusminus(inputtxt) {
+            var numbers = /^[-+]?[0-9]+$/;
+            if (inputtxt.value.match(numbers)) {
+                document.form1.text1.focus();
+                return true;
+            } else {
+                alert('Please input correct format');
+                document.form1.text1.focus();
+                return false;
+            }
+        }
+
+        const csrftoken = getCookie('csrftoken');
+        console.log(csrftoken)
+
+        form = $('#submit')
+        form.submit(function (e) {
+            e.preventDefault()
+            $.ajax({
+                url: form.attr('action'),
+                type: form.attr('method'),
+                data: form.serialize(),
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                },
+                success: function (data) {
+                    console.log(data);
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+            {##}
+            location.reload();
+        })
     </script>
 {% endblock %}
