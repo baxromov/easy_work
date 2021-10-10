@@ -46,7 +46,9 @@
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                    <form class="cmxform" method="POST" id="submit" action="{% url 'product' %}" enctype="multipart/form-data">
+                                    <form class="cmxform" method="POST" id="submit" action="{% url 'product' %}"
+                                          enctype="multipart/form-data">
+                                    {% csrf_token %}
                                         <fieldset>
                                             <!-- Category , Name -->
                                             <div class="row mb-3">
@@ -55,11 +57,11 @@
                                                     <select class="js-example-basic-single form-select mb-4 mb-md-0"
                                                             name="category"
                                                             data-width="100%">
-                                                        <option value="TX">Texas</option>
-                                                        <option value="NY">New York</option>
-                                                        <option value="FL">Florida</option>
-                                                        <option value="KN">Kansas</option>
-                                                        <option value="HW">Hawaii</option>
+                                                        <option value selected disabled>----</option>
+                                                        {% for category in categories %}
+                                                            <option value="{{ category.id }}">{{ category.name }}</option>
+                                                        {% endfor %}
+
                                                     </select>
                                                 </div>
                                                 <div class="col-md-6">
@@ -68,11 +70,11 @@
                                                            type="text" required>
                                                 </div>
                                             </div>
-                                            <!-- Measurement, quantity -->
+                                            <!-- Measurement, quantity, price -->
                                             <div class="row mb-3">
                                                 <div class="col-md-4">
                                                     <label class="form-label">Цена (Сум):</label>
-                                                    <input class="form-control mb-4 mb-md-0" type="text"
+                                                    <input class="form-control mb-4 mb-md-0" name="price" type="number"
                                                            data-inputmask="'alias': 'currency'" required/>
                                                 </div>
                                                 <div class="col-md-4">
@@ -97,7 +99,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <input class="btn btn-primary" type="submit" value="Submit">
+                                            <input class="btn btn-primary" data-bs-dismiss="modal" aria-label="btn-close"  type="submit" value="Submit">
                                         </fieldset>
                                     </form>
                                 </div>
@@ -109,7 +111,7 @@
                     <div class="table-responsive">
                         <table id="dataTableExample" class="table">
                             <thead>
-                            <tr>
+                                <tr>
                                 <th class="text-center">#</th>
                                 <th class="text-center">Наименование</th>
                                 <th class="text-center">Категория</th>
@@ -119,16 +121,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            {% for product in products %}
-                                <tr>
-                                    <td class="text-center">{{ forloop.counter }}</td>
-                                    <td class="text-center">{{ product.name }}</td>
-                                    <td class="text-center">{{ product.category }}</td>
-                                    <td class="text-center">{{ product.measurement }}</td>
-                                    <td class="text-center">{{ product.price }}</td>
-                                    <td class="text-center">{{ product.quantity }}</td>
-                                </tr>
-                            {% endfor %}
+
                             </tbody>
                         </table>
                     </div>
@@ -150,13 +143,13 @@
     <script src="{% static 'assets/js/inputmask.js' %}"></script>
     <script src="{% static 'assets/vendors/dropify/dist/dropify.min.js' %}"></script>
     <script src="{% static 'assets/js/dropify.js' %}"></script>
-
+    <!-- Json -->
     <script>
         $(function () {
             'use strict';
 
             $(function () {
-                $('#dataTableExample').DataTable({
+                var table = $('#dataTableExample').DataTable({
                     "aLengthMenu": [
                         [5, 10, 30, 50, -1],
                         [5, 10, 30, 50, "All"]
@@ -177,16 +170,27 @@
                             "sLast": "Последний" // This is the link to the last page
                         }
 
-                    }
+                    },
+                    "processing": true,
+                    "ajax": {
+                        "processing": true,
+                        "url": 'http://127.0.0.1:8000{% url 'product_json' %}',
+                        "dataSrc": ""
+                    },
+                    "columns": [
+                        { "data": function (data, type, row, meta) {
+                                return meta.row + meta.settings._iDisplayStart + 1;
+                            } },
+                        { "data": "fields.name" },
+                        { "data": "fields.category" },
+                        { "data": "fields.measurement" },
+                        { "data": "fields.price" },
+                        { "data": "fields.quantity" },
+                    ]
                 });
-                $('#dataTableExample').each(function () {
-                    var datatable = $(this);
-                    var search_input = datatable.closest('.dataTables_wrapper').find('div[id$=_filter] input');
-                    search_input.attr('placeholder', 'Search');
-                    search_input.removeClass('form-control-sm');
-                    var length_sel = datatable.closest('.dataTables_wrapper').find('div[id$=_length] select');
-                    length_sel.removeClass('form-control-sm');
-                });
+              setInterval(function () {
+                  table.ajax.reload(null, false);
+              },10000)
             });
 
         });
@@ -241,7 +245,32 @@
                 }
             });
             {##}
-            location.reload();
+            {#location.reload();#}
         })
+    </script>
+     <!-- Json -->
+    <script>
+{% comment %}
+         var products = JSON.parse('{{ json | escapejs }}');
+         console.log(products)
+{% endcomment %}
+
+   {% comment %} const filterBranch = $('select[id="filter-branch"]'),
+        filterStaff = $('select[id="filter-staff"]');
+
+    jsonObject.forEach(function (e, i) {
+        filterBranch.append($('<option>').val(e.branch_id).text(e.branch_name));
+    })
+
+    filterBranch.on('change', function(e) {
+        filterStaff.empty();
+        for (let i=0; i<jsonObject.length; i++) {
+            if (jsonObject[i].branch_id === parseInt(e.target.value)) {
+                jsonObject[i].staff.forEach(function (subE, subI) {
+                    filterStaff.append($('<option>').val(subE.id).text(subE.name));
+                })
+            }
+        }
+    }){% endcomment %}
     </script>
 {% endblock %}

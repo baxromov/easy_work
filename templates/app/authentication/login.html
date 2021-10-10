@@ -1,0 +1,56 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% block title %}
+    Login
+{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'assets/css/demo2/style.css' %}">
+{% endblock %}
+
+{% block login %}
+    <div class="row w-100 mx-0 auth-page">
+        <div class="col-md-4 mx-auto">
+            <div class="card">
+                <div class="row">
+                    <div class="col-md-12 ps-md-0">
+                        <div class="auth-form-wrapper px-4 py-5">
+                            <a href="#" class="noble-ui-logo logo-light d-block mb-2">Войдите в <span>профиль</span></a>
+                            <h5 class="text-muted fw-normal mb-4">Добро пожаловать! Войдите в свою учетную запись.</h5>
+                            <form class="forms-sample" action="{% url 'login' %}" method="POST">
+                                {% csrf_token %}
+                                <div class="mb-3">
+                                    <label for="userEmail" class="form-label">Имя пользователя</label>
+                                    <input type="text" name="username" class="form-control" id="userEmail" placeholder="Имя пользователя">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="userPassword" class="form-label">Пароль</label>
+                                    <input type="password" name="password" class="form-control" id="userPassword"
+                                           autocomplete="current-password" placeholder="Пароль">
+                                </div>
+                                <div class="form-check mb-3">
+                                    <input type="checkbox" class="form-check-input" checked id="authCheck">
+                                    <label class="form-check-label" for="authCheck">
+                                        Запомнить меня
+                                    </label>
+                                </div>
+                                <div>
+                                    <button type="submit" class="btn btn-primary me-2 mb-2 mb-md-0 text-white">Войти</button>
+                                </div>
+                                <a href="{% url 'registration' %}" class="d-block mt-3 text-muted">Регистрация</a>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6" style="background-image: url({% static 'assets/images/happiness.svg' %}); background-size: cover; background-repeat: no-repeat">
+
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+
+{% endblock %}

@@ -1,6 +1,7 @@
 from django.db import models
 
 from app.mixin import created_at
+from app.models import user
 from app.models.category import Category
 
 
@@ -9,6 +10,7 @@ def get_directory(instance, filename):
 
 
 class Product(created_at.CreatedAtMixin, models.Model):
+    user = models.ForeignKey(user.User, on_delete=models.CASCADE)
     name = models.CharField(max_length=255, null=True, blank=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True, blank=True)
     measurement = models.CharField(max_length=20, default='шт', null=True, blank=True)
@@ -24,7 +26,7 @@ class Product(created_at.CreatedAtMixin, models.Model):
         storage.delete(path)
 
     def __str__(self):
-        return self.name
+        return str(self.name)
 
     class Meta:
         app_label = "app"

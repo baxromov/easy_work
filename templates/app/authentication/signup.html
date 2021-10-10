@@ -1,0 +1,75 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% block title %}
+    Login
+{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'assets/css/demo2/style.css' %}">
+{% endblock %}
+
+{% block login %}
+    <div class="row w-100 mx-0 auth-page">
+        <div class="col-md-4 mx-auto">
+            <div class="card">
+                <div class="row">
+                    <div class="col-md-12 ps-md-0">
+                        <div class="auth-form-wrapper px-4 py-5">
+                            <a href="#" class="noble-ui-logo logo-light d-block mb-2 text-center">Регистрация</a>
+                            <form class="forms-sample" method="POST" action="{% url 'registration' %}">
+                                {% csrf_token %}
+                                <div class="mb-3">
+                                    <label for="userEmail" class="form-label">Имя пользователя</label>
+                                    <input type="text" name="username" class="form-control" id="userEmail"
+                                           placeholder="Имя пользователя" required>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="userEmail" class="form-label">Имя</label>
+                                            <input type="text" name="first_name" class="form-control" id="userEmail"
+                                                   placeholder="Имя" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="userEmail" class="form-label">Фамилия</label>
+                                            <input type="text" name="last_name" class="form-control" id="userEmail"
+                                                   placeholder="Фамилия" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="userEmail" class="form-label">Эл. адрес</label>
+                                    <input type="email" name="email" class="form-control" id="userEmail"
+                                           placeholder="Эл. адрес" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="userPassword" class="form-label">Пароль</label>
+                                    <input type="password" name="password1" required class="form-control" placeholder="Пароль">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="userPassword" class="form-label">Подтвердите пароль</label>
+                                    <input type="password" name="password2" required class="form-control"
+                                           placeholder="Подтвердите пароль">
+                                </div>
+                                <div>
+                                    <button type="submit" class="btn btn-primary me-2 mb-2 mb-md-0 text-white">Регистрация
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6"
+             style="background-image: url({% static 'assets/images/happiness.svg' %}); background-size: cover; background-repeat: no-repeat">
+
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+
+{% endblock %}
