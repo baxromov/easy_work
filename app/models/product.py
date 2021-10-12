@@ -11,13 +11,13 @@ def get_directory(instance, filename):
 
 class Product(created_at.CreatedAtMixin, models.Model):
     user = models.ForeignKey(user.User, on_delete=models.CASCADE)
-    name = models.CharField(max_length=255, null=True, blank=True)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True, blank=True)
-    measurement = models.CharField(max_length=20, default='шт', null=True, blank=True)
+    name = models.CharField(max_length=255, null=True, blank=True, verbose_name="Наименование")
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True, blank=True, verbose_name="Категория")
+    measurement = models.CharField(max_length=20, default='шт', null=True, blank=True, verbose_name="Измерение")
 
-    price = models.FloatField(default=0)
-    quantity = models.IntegerField(default=0)
-    image = models.ImageField(upload_to=get_directory, null=True, blank=True)
+    price = models.FloatField(default=0, verbose_name="Цена (Сум)")
+    quantity = models.IntegerField(default=0, verbose_name="Количество")
+    image = models.ImageField(upload_to=get_directory, null=True, blank=True, verbose_name="Изображение")
 
     def delete(self, *args, **kwargs):
         storage, path = self.image.storage, self.image.path
@@ -30,3 +30,4 @@ class Product(created_at.CreatedAtMixin, models.Model):
 
     class Meta:
         app_label = "app"
+        verbose_name_plural = "Товары"

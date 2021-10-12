@@ -14,3 +14,11 @@ class ProductModelForm(forms.ModelForm):
             'quantity',
             'image',
         )
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control', 'required': True}),
+            'category': forms.Select(attrs={'class': 'form-control', 'required': True}),
+            'measurement': forms.TextInput(attrs={'class': 'form-control', 'required': True}),
+            'price': forms.NumberInput(attrs={'class': 'form-control', 'required': True}),
+            'quantity': forms.NumberInput(attrs={'class': 'form-control', 'required': True}),
+            'image': forms.FileInput(attrs={'id': 'myDropify'}),
+        }

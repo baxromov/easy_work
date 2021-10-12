@@ -1,11 +1,8 @@
-import json
-
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import HttpResponse
 from django.urls import reverse_lazy
 from django.views import generic
 
-from app.forms import product, registration
+from app.forms import product, registration, category
 
 
 class Registration(generic.CreateView):
@@ -27,44 +24,98 @@ class HomeTemplateView(LoginRequiredMixin, generic.TemplateView):
 class ProductTemplateView(LoginRequiredMixin, generic.TemplateView):
     template_name = 'app/main/product/index.html'
 
-    def post(self, request, *args, **kwargs):
-        from app.models import product as user_products
-        if request.method == 'POST':
-            form = product.ProductModelForm(request.POST, files=request.FILES)
-            if form.is_valid():
-                user_products.Product.objects.create(user=request.user,
-                                                     name=form.cleaned_data['name'],
-                                                     category=form.cleaned_data['category'],
-                                                     measurement=form.cleaned_data['measurement'],
-                                                     price=form.cleaned_data['price'],
-                                                     quantity=form.cleaned_data['quantity'],
-                                                     image=form.cleaned_data['image'],
-                                                     )
-                return HttpResponse(status=200)
-        else:
-            form = product.ProductModelForm(request.POST)
-        return HttpResponse(status=400)
-
     def get_context_data(self, **kwargs):
-        from app.models import product, category
+        from app.models import product
         ctx = super(ProductTemplateView, self).get_context_data(**kwargs)
-        products = product.Product.objects.filter()
+        ctx['products'] = product.Product.objects.filter(user=self.request.user)
+        return ctx
 
+
+class ProductCreateView(LoginRequiredMixin, generic.CreateView):
+    template_name = 'app/main/product/create.html'
+    form_class = product.ProductModelForm
+    success_url = reverse_lazy('product')
+
+    def get_form(self, form_class=None):
+        f = super().get_form(form_class)
+        f.fields['category'].queryset = self.request.user.category_set.all()
+        return f
+
+    def form_valid(self, form):
+        self.product = form.save(commit=False)
+        user = self.request.user
+        self.product.user = user
+        self.product.user.save()
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        return super().form_invalid(form)
+
+
+class ProductUpdateView(LoginRequiredMixin, generic.UpdateView):
+    from app.models.product import Product
+    template_name = 'app/main/product/update.html'
+    form_class = product.ProductModelForm
+    model = Product
+    success_url = reverse_lazy('product')
+
+    def get_form(self, form_class=None):
+        f = super().get_form(form_class)
+        f.fields['category'].queryset = self.request.user.category_set.all()
+        return f
+
+    def form_valid(self, form):
+        self.product = form.save(commit=False)
+        user = self.request.user
+        self.product.user = user
+        self.product.user.save()
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        return super().form_invalid(form)
+
+
+class CategoryListView(LoginRequiredMixin, generic.ListView):
+    from app.models import category
+    template_name = 'app/main/category/index.html'
+    model = category.Category
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        from app.models import category
+        ctx = super(CategoryListView, self).get_context_data(**kwargs)
         ctx['categories'] = category.Category.objects.filter(user=self.request.user)
         return ctx
 
 
-def product_json(request):
-    from app.models import product
-    from django.core import serializers
-    products = product.Product.objects.filter(user=request.user)
-    product_data = [{
-        "name": item.name,
-        "category": item.category.name,
-        "measurement": item.measurement,
-        "price": item.price,
-        "quantity": item.quantity,
+class CategoryCreateView(LoginRequiredMixin, generic.CreateView):
+    template_name = 'app/main/category/create.html'
+    form_class = category.CategoryModelForm
+    success_url = reverse_lazy('category')
 
-    } for item in products]
-    json = serializers.serialize('json', products)
-    return HttpResponse(json, content_type='application/json')
+    def form_valid(self, form):
+        self.product = form.save(commit=False)
+        user = self.request.user
+        self.product.user = user
+        self.product.user.save()
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        return super().form_invalid(form)
+
+
+class CategoryUpdateView(LoginRequiredMixin, generic.UpdateView):
+    from app.models.category import Category
+    template_name = 'app/main/category/update.html'
+    form_class = category.CategoryModelForm
+    success_url = reverse_lazy('category')
+    model = Category
+
+    def form_valid(self, form):
+        self.product = form.save(commit=False)
+        user = self.request.user
+        self.product.user = user
+        self.product.user.save()
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        return super().form_invalid(form)

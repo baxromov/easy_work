@@ -1,0 +1,56 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% block title %}Редактировать продукт{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css' %}">
+    <!-- End plugin css for this page -->
+
+    <!-- inject:css -->
+    <link rel="stylesheet" href="{% static 'assets/fonts/feather-font/css/iconfont.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/vendors/flag-icon-css/css/flag-icon.min.css' %}">
+    <!-- endinject -->
+    <link rel="stylesheet" href="{% static 'assets/vendors/datatables.net-bs4/dataTables.bootstrap4.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/vendors/prismjs/themes/prism.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/vendors/dropify/dist/dropify.min.css' %}">
+    <!-- Layout styles -->
+    <link rel="stylesheet" href="{% static 'assets/css/demo2/style.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <form action="" method="POST" enctype="multipart/form-data" class="row">
+            {% csrf_token %}
+            <div class="col-lg-6 stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Редактировать продукт</h4>
+                        <fieldset>
+                            {{ form }}
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <input class="btn btn-primary mt-5" type="submit" value="Сохранить">
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script src="{% static 'assets/vendors/datatables.net/jquery.dataTables.js' %}"></script>
+    <script src="{% static 'assets/vendors/datatables.net-bs4/dataTables.bootstrap4.js' %}"></script>
+    <script src="{% static 'assets/vendors/prismjs/prism.js' %}"></script>
+    <script src="{% static 'assets/vendors/clipboard/clipboard.min.js' %}"></script>
+
+    <script src="{% static 'assets/vendors/jquery-validation/jquery.validate.min.js' %}"></script>
+    <script src="{% static 'assets/vendors/inputmask/jquery.inputmask.min.js' %}"></script>
+    <script src="{% static 'assets/js/inputmask.js' %}"></script>
+    <script src="{% static 'assets/vendors/dropify/dist/dropify.min.js' %}"></script>
+    <script src="{% static 'assets/js/dropify.js' %}"></script>
+{% endblock %}
